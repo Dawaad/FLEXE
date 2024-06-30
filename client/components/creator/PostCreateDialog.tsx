@@ -112,17 +112,6 @@ const PostCreateDialog = ({ dispatch }: DialogProps) => {
                 <span>Media Editor</span>
               </Button>
             </Link>
-
-            <Link href={"/new/text"}>
-              <Button
-                variant={"outline"}
-                className="flex space-x-2"
-                onClick={() => dispatch(false)}
-              >
-                <DocumentIcon className="w-6 h-6" />
-                <span>Text Editor</span>
-              </Button>
-            </Link>
           </div>
         </div>
       </DialogContent>

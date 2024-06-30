@@ -10,6 +10,7 @@ import { User } from "next-auth";
 import { timeAgo } from "../../../../lib/dateutils";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardFooter } from "@/components/ui/card";
+import PostMetrics from "@/components/ui/Posts/common/PostMetrics";
 
 interface TextPostPreviewProps {
   user: User;
@@ -42,14 +43,7 @@ const TextPostPreview = (props: TextPostPreviewProps) => {
 
         <section className="ml-12">{props.textpost.textpost}</section>
         <CardFooter className="py-3 ml-6 justify-left space-x-4">
-          <div className="flex space-x-2 items-center">
-            <span>{props.textpost.externalData.likeCount}</span>
-            <HandThumbUpIcon className="w-4 h-4" />
-          </div>
-          <div className="flex space-x-2 items-center">
-            <span>{props.textpost.externalData.commentCount}</span>
-            <ChatBubbleOvalLeftIcon className="w-4 h-4" />
-          </div>
+          <PostMetrics externalData={props.textpost.externalData} />
         </CardFooter>
       </main>
     </Card>
