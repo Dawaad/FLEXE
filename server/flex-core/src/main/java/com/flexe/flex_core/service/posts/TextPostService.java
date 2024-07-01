@@ -19,4 +19,7 @@ public class TextPostService {
         return repository.findAllTextPostByUserId(userId);
     }
 
+    public void deletePost(String postId) {
+        repository.deleteById(postId);
+    }
 }

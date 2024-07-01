@@ -25,4 +25,7 @@ public class MediaPostService {
     public MediaPost[] getAllPostFromUser(String userId) {
         return repository.findAllPostByUserId(userId);
     }
+    public void deletePost(String postId) {
+        repository.deleteById(postId);
+    }
 }

@@ -1,4 +1,10 @@
-import { ChildNodeProps, UserPost } from "@/lib/interface";
+import ArchivePostModal from "@/components/ui/Posts/media/Modals/ArchivePostModal";
+import BoostPostModal from "@/components/ui/Posts/media/Modals/BoostPostModal";
+import DeletePostModal from "@/components/ui/Posts/media/Modals/DeletePostModal";
+import PinPostModal from "@/components/ui/Posts/media/Modals/PinPostModal";
+import ReportPostModal from "@/components/ui/Posts/media/Modals/ReportPostModal";
+import SharePostModal from "@/components/ui/Posts/media/Modals/SharePostModal";
+import { ChildNodeProps, PostType } from "@/lib/interface";
 import React, {
   JSX,
   createContext,
@@ -6,21 +12,18 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import ArchivePostModal from "@/components/ui/Posts/media/Modals/ArchivePostModal";
-import BoostPostModal from "@/components/ui/Posts/media/Modals/BoostPostModal";
-import DeletePostModal from "@/components/ui/Posts/media/Modals/DeletePostModal";
-import PinPostModal from "@/components/ui/Posts/media/Modals/PinPostModal";
-import ReportPostModal from "@/components/ui/Posts/media/Modals/ReportPostModal";
-import SharePostModal from "@/components/ui/Posts/media/Modals/SharePostModal";
-import UserPostOptions from "@/components/ui/Posts/media/UserPostOptions";
+import { MediaPostTools } from "../ui/Posts/media/MediaPostTools";
+import { TextPostTools } from "../ui/Posts/text/TextPostTools";
 import { Dialog } from "../ui/dialog";
 
 interface Props extends ChildNodeProps {
-  post: UserPost;
+  postId: string;
+  postType: PostType;
 }
 
 export interface ToolModalProp {
-  post: UserPost;
+  postId: string;
+  postType: PostType;
   open: boolean;
   callback: () => void;
 }
@@ -48,6 +51,14 @@ const renderedDialog: Record<
   pin: PinPostModal,
 };
 
+const renderedToolSet: Record<
+  PostType,
+  (props: Omit<Props, "postType">) => JSX.Element
+> = {
+  MEDIA: MediaPostTools,
+  TEXT: TextPostTools,
+};
+
 interface PostOptionToolState {
   tool: PostToolOptionsType | undefined;
   setTool: React.Dispatch<
@@ -55,6 +66,7 @@ interface PostOptionToolState {
   >;
   dialogOpen: boolean;
   setDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  type: PostType | undefined;
 }
 
 const initialState: PostOptionToolState = {
@@ -62,15 +74,16 @@ const initialState: PostOptionToolState = {
   setTool: () => {},
   dialogOpen: false,
   setDialogOpen: () => {},
+  type: undefined,
 };
 
 export const PostOptionToolContext =
   createContext<PostOptionToolState>(initialState);
 
-export const PostToolsProvider = ({ post, children }: Props) => {
+export const PostToolsProvider = ({ postId, postType, children }: Props) => {
   const [tool, setTool] = useState<PostToolOptionsType | undefined>(undefined);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-
+  const Toolset = renderedToolSet[postType];
   const handleModalClose = () => {
     setDialogOpen(false);
     setTool(undefined);
@@ -88,13 +101,15 @@ export const PostToolsProvider = ({ post, children }: Props) => {
         setTool,
         dialogOpen,
         setDialogOpen,
+        type: postType,
       }}
     >
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <UserPostOptions post={post}>{children}</UserPostOptions>
+        <Toolset postId={postId}>{children}</Toolset>
         {tool
           ? renderedDialog[tool]({
-              post,
+              postId,
+              postType,
               open: dialogOpen,
               callback: handleModalClose,
             })

@@ -33,4 +33,12 @@ public class TextPost {
     public String getTextpost() {return textpost;}
 
     public PostExternalData getExternalData() { return externalData;}
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
 }

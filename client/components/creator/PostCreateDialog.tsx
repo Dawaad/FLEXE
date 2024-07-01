@@ -1,24 +1,20 @@
-import React, { SetStateAction } from "react";
+import { saveTextPost } from "@/controllers/PostController";
+import { UserTextPost } from "@/lib/interface";
+import { PhotoIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import React, { SetStateAction, useState } from "react";
+import { toast } from "sonner";
+import { useAccount } from "../context/AccountProvider";
+import { GetNameInitials } from "../ui/User/UserAvatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Button } from "../ui/button";
 import {
-  DialogPortal,
-  DialogOverlay,
   DialogContent,
   DialogHeader,
-  DialogDescription,
-  DialogClose,
-  DialogFooter,
+  DialogOverlay,
+  DialogPortal,
 } from "../ui/dialog";
-import { useEffect, useState } from "react";
-import { saveTextPost } from "@/controllers/PostController";
-import { AccountContext, useAccount } from "../context/AccountProvider";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { GetNameInitials } from "../ui/User/UserAvatar";
 import { Textarea } from "../ui/textarea";
-import { toast } from "sonner";
-import { Button } from "../ui/button";
-import { DocumentIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import Link from "next/link";
-import { UserTextPost } from "@/lib/interface";
 
 interface DialogProps {
   dispatch: React.Dispatch<SetStateAction<boolean>>;
@@ -46,6 +42,7 @@ const PostCreateDialog = ({ dispatch }: DialogProps) => {
         textpost: newTextPost,
       };
       toast.promise(saveTextPost(textPost), {
+        loading: `Posting...`,
         success: (data) => {
           if (!data) return;
           setTextPosts([...textPosts, data]);
@@ -97,7 +94,7 @@ const PostCreateDialog = ({ dispatch }: DialogProps) => {
           <div className="flex w-full items-center mt-2">
             <div className="h-[1px] ml-1 bg-primary w-full" />
             <span className="text-lg w-full mx-2 text-center">
-              Or Create With
+              Or publish your work with
             </span>
             <div className="h-[1px] mr-1 bg-primary w-full" />
           </div>
@@ -110,17 +107,6 @@ const PostCreateDialog = ({ dispatch }: DialogProps) => {
               >
                 <PhotoIcon className="w-6 h-6" />
                 <span>Media Editor</span>
-              </Button>
-            </Link>
-
-            <Link href={"/new/text"}>
-              <Button
-                variant={"outline"}
-                className="flex space-x-2"
-                onClick={() => dispatch(false)}
-              >
-                <DocumentIcon className="w-6 h-6" />
-                <span>Text Editor</span>
               </Button>
             </Link>
           </div>

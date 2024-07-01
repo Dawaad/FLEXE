@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { UserPost } from "@/lib/interface";
 import {
   BookmarkIcon,
@@ -7,7 +8,6 @@ import {
   HandThumbUpIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
 
 interface Props {
   post: UserPost;

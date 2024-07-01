@@ -65,7 +65,7 @@ function ProfileHeader() {
                 followers={account?.profile?.followers ?? 0}
                 following={account?.profile?.following ?? 0}
               />
-              {isOwnProfile && (
+              {isOwnProfile ? (
                 <Button
                   className="mt-6"
                   variant={"outline"}
@@ -73,6 +73,8 @@ function ProfileHeader() {
                 >
                   Edit Profile
                 </Button>
+              ) : (
+                <Button className="mt-6">Follow</Button>
               )}
             </>
           )}

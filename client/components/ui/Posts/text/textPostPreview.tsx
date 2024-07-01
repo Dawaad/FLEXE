@@ -1,5 +1,8 @@
 "use client";
 
+import { PostToolsProvider } from "@/components/context/PostOptionToolProvider";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardFooter } from "@/components/ui/card";
 import { UserTextPost } from "@/lib/interface";
 import {
   ChatBubbleOvalLeftIcon,
@@ -8,15 +11,17 @@ import {
 } from "@heroicons/react/24/outline";
 import { User } from "next-auth";
 import { timeAgo } from "../../../../lib/dateutils";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardFooter } from "@/components/ui/card";
+import { Button } from "../../button";
 
 interface TextPostPreviewProps {
   user: User;
-  textpost: UserTextPost;
+  post: UserTextPost;
 }
 
 const TextPostPreview = (props: TextPostPreviewProps) => {
+  const { post, user } = props;
+  if (!post.id || !user) return null;
+
   return (
     <Card className=" w-full my-4">
       <main className="p-4">
@@ -25,29 +30,34 @@ const TextPostPreview = (props: TextPostPreviewProps) => {
             <Avatar className="w-7 h-7 mr-2">
               <AvatarImage
                 className="object-cover"
-                src={props.user.image ?? process.env.NEXT_PUBLIC_FALLBACK_PHOTO}
+                src={user.image ?? process.env.NEXT_PUBLIC_FALLBACK_PHOTO}
               />
             </Avatar>
             <div className="flex items-center space-x-2">
-              <div>{props.user.username}</div>
+              <div>{user.username}</div>
             </div>
             <div className="flex items-center ml-2 space-x-2">
               <div className="text-secondary-header">
-                {timeAgo(props.textpost.createdAt)}
+                {timeAgo(post.createdAt)}
               </div>
             </div>
           </div>
-          <EllipsisHorizontalIcon className="w-4 h-4" />
+
+          <PostToolsProvider postId={post.id} postType="TEXT">
+            <Button size={"icon"} variant={"ghost"}>
+              <EllipsisHorizontalIcon className="w-6 h-6" />
+            </Button>
+          </PostToolsProvider>
         </section>
 
-        <section className="ml-12">{props.textpost.textpost}</section>
+        <section className="ml-12">{post.textpost}</section>
         <CardFooter className="py-3 ml-6 justify-left space-x-4">
           <div className="flex space-x-2 items-center">
-            <span>{props.textpost.externalData.likeCount}</span>
+            <span>{post.externalData.likeCount}</span>
             <HandThumbUpIcon className="w-4 h-4" />
           </div>
           <div className="flex space-x-2 items-center">
-            <span>{props.textpost.externalData.commentCount}</span>
+            <span>{post.externalData.commentCount}</span>
             <ChatBubbleOvalLeftIcon className="w-4 h-4" />
           </div>
         </CardFooter>

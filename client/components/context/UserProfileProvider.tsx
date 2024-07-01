@@ -64,6 +64,17 @@ export const ProviderViewerProvider = ({ children }: ChildNodeProps) => {
     }
   }, [user, profile]);
 
+  useEffect(() => {
+    if (!isOwnProfile || !user) return;
+
+    setFetchedAccount({
+      user: user,
+      profile: profile,
+      mediaPosts: mediaPosts,
+      textPosts: textPosts,
+    });
+  }, [textPosts, mediaPosts, profile, user]);
+
   return (
     <ProfileViewerContext.Provider
       value={{

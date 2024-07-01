@@ -2,7 +2,7 @@
 
 import { savePost } from "@/controllers/PostController";
 import { PostStatus, UserPost } from "@/lib/interface";
-import { cn, toTitleCase } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -58,7 +58,7 @@ export const CreatorHeader = () => {
       };
 
       toast.promise(savePost(post), {
-        loading: `Saving ${toTitleCase(type)}...`,
+        loading: `Saving Post...`,
         success: (data) => {
           if (!data) return;
 
@@ -66,11 +66,11 @@ export const CreatorHeader = () => {
           setAuxData(data);
           setMediaPosts((prev) => [...prev, data]);
           resolve(true);
-          return `Saved ${toTitleCase(type)} Successfully`;
+          return `Saved Post Successfully`;
         },
         error: () => {
           reject(false);
-          return `Failed to Save ${toTitleCase(type)}`;
+          return `Failed to Save Post`;
         },
       });
     });
