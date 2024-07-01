@@ -12,7 +12,7 @@ import DeletePostModal from "@/components/ui/Posts/media/Modals/DeletePostModal"
 import PinPostModal from "@/components/ui/Posts/media/Modals/PinPostModal";
 import ReportPostModal from "@/components/ui/Posts/media/Modals/ReportPostModal";
 import SharePostModal from "@/components/ui/Posts/media/Modals/SharePostModal";
-import UserPostOptions from "@/components/ui/Posts/common/UserPostOptions";
+import UserPostOptions from "@/components/ui/Posts/media/UserPostOptions";
 import { Dialog } from "../ui/dialog";
 
 interface Props extends ChildNodeProps {

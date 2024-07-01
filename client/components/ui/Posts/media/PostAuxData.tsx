@@ -3,7 +3,7 @@
 import { UserPost } from "@/lib/interface";
 import CommentInput from "./Comment/CommentInput";
 import ModalComments from "./Comment/ModalComment";
-import PostMetrics from "../common/PostMetrics";
+import PostMetrics from "./PostMetrics";
 
 interface Props {
   selectedPost: UserPost;
@@ -16,7 +16,7 @@ const PostAuxData = (props: Props) => {
       <div className="hidden md:block h-full overflow-y-auto" id="comments">
         <ModalComments />
       </div>
-      <PostMetrics externalData={selectedPost.externalData} />
+      <PostMetrics post={selectedPost} />
       <CommentInput />
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { PostExternalData } from "@/lib/interface";
+import { UserPost } from "@/lib/interface";
 import {
   BookmarkIcon,
   ChatBubbleOvalLeftEllipsisIcon,
@@ -10,12 +10,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 interface Props {
-  externalData: PostExternalData;
+  post: UserPost;
 }
 
-const PostMetrics = ({ externalData }: Props) => {
+const PostMetrics = ({ post }: Props) => {
   const router = useRouter();
-  console.log(externalData);
   return (
     <div className="border-t-2 flex justify-between items-center">
       <Button
@@ -24,7 +23,7 @@ const PostMetrics = ({ externalData }: Props) => {
         variant={"ghost"}
       >
         <HandThumbUpIcon className="w-4 h-4" />
-        <span className="ml-1">{externalData.likeCount}</span>
+        <span className="ml-1">{post.externalData.likeCount}</span>
       </Button>
       <Button
         onClick={() => {
@@ -34,14 +33,14 @@ const PostMetrics = ({ externalData }: Props) => {
         className="flex items-center rounded-none w-full"
       >
         <ChatBubbleOvalLeftEllipsisIcon className="w-4 h-4" />
-        <span className="ml-1">{externalData.commentCount}</span>
+        <span className="ml-1">{post.externalData.commentCount}</span>
       </Button>
       <Button
         variant={"ghost"}
         className="flex items-center rounded-none w-full"
       >
         <BookmarkIcon className="w-4 h-4" />
-        <span className="ml-1">{externalData.saveCount}</span>
+        <span className="ml-1">{post.externalData.saveCount}</span>
       </Button>
     </div>
   );
